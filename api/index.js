@@ -14,7 +14,7 @@ app.all('*', function (req, res, next) {
 
 const uri = "mongodb+srv://alyelazazy:azazypassword123%5E_@cluster0.1mkgj.mongodb.net/rabbit?authMechanism=DEFAULT";
 
-app.get("/", function(req, res, next) {
+app.get("/api", function(req, res, next) {
     client.connect(uri, (err, dbclient) => {
         if (err) throw err
         const db = dbclient.db("rabbit")
@@ -26,7 +26,7 @@ app.get("/", function(req, res, next) {
     })
 });
  
-app.get("/:slug", function(req, res, next) {
+app.get("/api/:slug", function(req, res, next) {
     client.connect(uri, (err, dbclient) => {
         if (err) throw err
         const db = dbclient.db("rabbit")
