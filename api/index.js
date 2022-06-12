@@ -1,9 +1,20 @@
-var express = require("express");
-var router = express.Router();
+const bodyParser = require('body-parser')
+const express = require('express');
+const app = express();
 const client = require("mongodb").MongoClient
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.all('*', function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 const uri = "mongodb+srv://alyelazazy:azazypassword123%5E_@cluster0.1mkgj.mongodb.net/rabbit?authMechanism=DEFAULT";
 
-router.get("/", function(req, res, next) {
+app.get("/", function(req, res, next) {
     client.connect(uri, (err, dbclient) => {
         if (err) throw err
         const db = dbclient.db("rabbit")
@@ -14,8 +25,8 @@ router.get("/", function(req, res, next) {
         })
     })
 });
-
-router.get("/:slug", function(req, res, next) {
+ 
+app.get("/:slug", function(req, res, next) {
     client.connect(uri, (err, dbclient) => {
         if (err) throw err
         const db = dbclient.db("rabbit")
@@ -28,5 +39,4 @@ router.get("/:slug", function(req, res, next) {
 });
 
 
-
-module.exports = router;
+app.listen(4000);
